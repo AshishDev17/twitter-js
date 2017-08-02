@@ -1,6 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
 const nunjucks = require('nunjucks');
+const routes = require('./routes');
 const app = express();
 
 
@@ -14,14 +15,9 @@ nunjucks.configure('views'); // point nunjucks to the proper directory for templ
 
 app.use(morgan('dev'));
 
-app.get('/', (req, res, next) => {
-  const people = [{name: 'Full'}, {name: 'Stacker'}, {name: 'Son'}];
-  res.render( 'index', {title: 'Hall of Fame', people: people} );
-})
+app.use('/', routes);
 
-app.get('/news', (req, res, next) => {
-  res.send('Breaking News!');
-})
+app.use(express.static('public'));
 
 app.listen(3000, () => {
   console.log('server started!')
